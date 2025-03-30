@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import WordCloud from "react-d3-cloud";
 import { getGratitudeCounts } from "@/lib/gratitude-service";
+import { scaleOrdinal } from "d3-scale";
+import { schemeCategory10 } from "d3-scale-chromatic";
 
 interface WordCloudData {
   text: string;
@@ -42,6 +44,8 @@ export function GratitudeWall() {
     );
   }
 
+  const schemeCategory10ScaleOrdinal = scaleOrdinal(schemeCategory10);
+
   return (
     <div className="flex justify-center items-center h-full w-full">
       <div style={{ width: dimensions.width }}>
@@ -49,13 +53,20 @@ export function GratitudeWall() {
           data={words}
           width={dimensions.width}
           height={dimensions.height}
-          font="Arial"
-          fontSize={(word) => word.value * 10}
+          font="Impact"
+          fontSize={(word) => {
+            const maxValue = Math.max(...words.map((w) => w.value));
+            const scale = 30 / Math.log2(maxValue + 1);
+            // Square the logarithmic result to create bigger differences
+            return Math.max(12, Math.pow(Math.log2(word.value + 1), 2) * scale);
+          }}
+          padding={0.5}
           rotate={0}
-          padding={3}
-          fill="#475569"
-          spiral="rectangular"
-          random={Math.random}
+          fill={(d: WordCloudData, i: string) =>
+            schemeCategory10ScaleOrdinal(i)
+          }
+          spiral="archimedean"
+          // random={Math.random}
         />
       </div>
     </div>

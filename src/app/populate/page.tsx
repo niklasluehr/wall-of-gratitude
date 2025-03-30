@@ -4,52 +4,55 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { addGratitudeEntry } from "@/lib/gratitude-service";
 
-const gratitudeEntries = [
-  // High frequency items (added multiple times)
-  ...Array(10).fill("family"),
-  ...Array(8).fill("health"),
-  ...Array(7).fill("friends"),
-  ...Array(6).fill("sunshine"),
+// Format: [word, count]
+const entries: [string, number][] = [
+  // Very frequent (daily gratitudes)
+  ["family", 28],
+  ["health", 25],
+  ["friends", 22],
+  ["sleep", 20],
 
-  // Medium frequency items
-  ...Array(4).fill("coffee"),
-  ...Array(4).fill("music"),
-  ...Array(3).fill("books"),
-  ...Array(3).fill("nature"),
-  ...Array(3).fill("peace"),
+  // Regular (2-3 times per week)
+  ["coffee", 12],
+  ["sunshine", 10],
+  ["home", 10],
+  ["food", 9],
+  ["music", 8],
+  ["peace", 8],
 
-  // Lower frequency items (unique experiences)
-  "morning walk",
-  "good food",
-  "warm bed",
-  "learning",
-  "creativity",
-  "laughter",
-  "quiet moments",
-  "fresh air",
-  "kindness",
-  "technology",
-  "clean water",
-  "home",
-  "pets",
-  "art",
-  "sleep",
-  "reading",
-  "exercise",
-  "memories",
-  "opportunities",
-  "comfort",
+  // Occasional (weekly)
+  ["nature", 6],
+  ["books", 5],
+  ["exercise", 5],
+  ["pets", 5],
+  ["creativity", 4],
+  ["learning", 4],
+
+  // Rare (special moments)
+  ["quiet moments", 3],
+  ["fresh air", 3],
+  ["kindness", 3],
+  ["laughter", 3],
+  ["technology", 2],
+  ["art", 2],
+  ["memories", 2],
+  ["opportunities", 2],
+  ["warm bed", 1],
+  ["morning walk", 1],
+  ["clean water", 1],
+  ["comfort", 1],
 ];
 
 export default function PopulatePage() {
   const router = useRouter();
 
   useEffect(() => {
-    gratitudeEntries.forEach((entry) => {
-      addGratitudeEntry(entry);
+    entries.forEach(([word, count]) => {
+      for (let i = 0; i < count; i++) {
+        addGratitudeEntry(word);
+      }
     });
 
-    // Redirect to wall page after populating
     router.push("/wall");
   }, [router]);
 
