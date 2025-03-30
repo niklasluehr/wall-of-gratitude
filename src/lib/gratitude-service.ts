@@ -1,8 +1,10 @@
 import { GratitudeEntry, GratitudeCount } from "./types";
 
-// In a real application, you would use a database
-// For simplicity, we're using localStorage
-const STORAGE_KEY = "gratitude-entries";
+// Use different storage keys for development and production
+const STORAGE_KEY =
+  process.env.NODE_ENV === "production"
+    ? "gratitude-entries"
+    : "gratitude-entries-dev";
 
 export function saveGratitudeEntries(entries: GratitudeEntry[]): void {
   if (typeof window !== "undefined") {
