@@ -102,7 +102,7 @@ function BottomBar({
             }`}
             onClick={() => setViewMode("entries")}
           >
-            Entries
+            entries
           </button>
           <button
             className={`px-3 py-1 text-sm rounded-full transition-colors ${
@@ -112,7 +112,7 @@ function BottomBar({
             }`}
             onClick={() => setViewMode("words")}
           >
-            Words
+            words
           </button>
         </div>
         <Link href="/">
