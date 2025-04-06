@@ -50,3 +50,27 @@ export function getGratitudeCounts(): GratitudeCount[] {
     }))
     .sort((a, b) => b.count - a.count);
 }
+
+export function getWordCounts(): GratitudeCount[] {
+  const entries = getGratitudeEntries();
+  const countMap: Record<string, number> = {};
+
+  // Count occurrences of each word
+  entries.forEach((entry) => {
+    const words = entry.text.toLowerCase().split(/\s+/);
+    words.forEach((word) => {
+      if (word.length > 0) {
+        // Skip empty strings
+        countMap[word] = (countMap[word] || 0) + 1;
+      }
+    });
+  });
+
+  // Convert to array for rendering
+  return Object.keys(countMap)
+    .map((text) => ({
+      text,
+      count: countMap[text],
+    }))
+    .sort((a, b) => b.count - a.count);
+}
