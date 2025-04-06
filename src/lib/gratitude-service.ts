@@ -215,8 +215,11 @@ export function getWordCounts(): GratitudeCount[] {
     words.forEach((word) => {
       // Skip empty strings and stop words
       if (word.length > 0 && !STOP_WORDS.has(word)) {
+        // Remove apostrophes and anything after them
+        const cleanWord = word.replace(/'[a-z]*$/, "");
+
         // Get the stem of the word
-        const stem = stemmer(word);
+        const stem = stemmer(cleanWord);
 
         // Keep track of the original word for display
         if (!originalWords[stem] || word.length < originalWords[stem].length) {
