@@ -239,3 +239,21 @@ export function getWordCounts(): GratitudeCount[] {
     }))
     .sort((a, b) => b.count - a.count);
 }
+
+export function exportGratitudeEntries(): string {
+  const entries = getGratitudeEntries();
+  return JSON.stringify(entries, null, 2);
+}
+
+export function importGratitudeEntries(jsonString: string): void {
+  try {
+    const entries = JSON.parse(jsonString);
+    if (Array.isArray(entries)) {
+      saveGratitudeEntries(entries);
+    } else {
+      throw new Error("Invalid data format");
+    }
+  } catch (error) {
+    throw new Error("Failed to import data: Invalid JSON format");
+  }
+}

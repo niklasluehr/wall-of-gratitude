@@ -1,24 +1,32 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import WordCloud from "react-d3-cloud";
-import { getGratitudeCounts, getWordCounts } from "@/lib/gratitude-service";
 import { scaleOrdinal } from "d3-scale";
 import { schemeCategory10 } from "d3-scale-chromatic";
-import { Plus } from "lucide-react";
-import { Button } from "./ui/button";
+import { Plus, Download, Upload } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  exportGratitudeEntries,
+  importGratitudeEntries,
+  getGratitudeCounts,
+  getWordCounts,
+} from "@/lib/gratitude-service";
+import { toast } from "sonner";
+
+type ViewMode = "entries" | "words";
 
 interface WordCloudData {
   text: string;
   value: number;
 }
 
-type ViewMode = "entries" | "words";
-
 export function GratitudeWall() {
   const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
   const [viewMode, setViewMode] = useState<ViewMode>("entries");
+  // This is used to trigger a re-render when the data is imported
+  const [dataVersion, setDataVersion] = useState(0);
 
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
@@ -37,14 +45,20 @@ export function GratitudeWall() {
       text: item.text,
       value: item.count,
     }));
-  }, [viewMode]);
+  }, [viewMode, dataVersion]);
 
   if (words.length === 0) {
     return (
-      <div className="flex items-center justify-center h-[50vh]">
+      <div className="flex flex-col items-center justify-center h-[50vh] gap-4">
         <p className="text-muted-foreground text-sm">
           Add your first gratitude entry
         </p>
+        <div className="flex items-center gap-2">
+          <ImportButton
+            onDataImported={() => setDataVersion((prev) => prev + 1)}
+          />
+          <AddButton variant="outline" />
+        </div>
       </div>
     );
   }
@@ -63,7 +77,6 @@ export function GratitudeWall() {
             fontSize={(word) => {
               const maxValue = Math.max(...words.map((w) => w.value));
               const scale = 30 / Math.log2(maxValue + 1);
-              // Square the logarithmic result to create bigger differences
               return Math.max(
                 12,
                 Math.pow(Math.log2(word.value + 1), 2) * scale
@@ -87,6 +100,94 @@ export function GratitudeWall() {
   );
 }
 
+function ExportButton() {
+  const handleExport = () => {
+    const data = exportGratitudeEntries();
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "gratitude-entries.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <Button
+      size="icon"
+      className="rounded-full h-7 w-7"
+      onClick={handleExport}
+      title="Export data"
+    >
+      <Download />
+    </Button>
+  );
+}
+
+function ImportButton({ onDataImported }: { onDataImported: () => void }) {
+  const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const content = e.target?.result as string;
+          importGratitudeEntries(content);
+          toast.success("Data imported successfully");
+          onDataImported();
+        } catch (error) {
+          toast.error("Failed to import data");
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  return (
+    <>
+      <input
+        type="file"
+        accept=".json"
+        onChange={handleImport}
+        className="hidden"
+        id="import-file"
+      />
+      <Button
+        variant="outline"
+        size="icon"
+        className="rounded-full h-8 w-8 shadow-md"
+        onClick={() => document.getElementById("import-file")?.click()}
+        title="Import data"
+      >
+        <Upload />
+      </Button>
+    </>
+  );
+}
+
+function AddButton({
+  variant = "outline",
+}: {
+  variant?: "outline" | "default";
+}) {
+  return (
+    <Link href="/">
+      <Button
+        variant={variant}
+        size="icon"
+        title="Add entries"
+        className={`rounded-full ${
+          variant === "outline" ? "h-8 w-8 shadow-md" : "h-7 w-7"
+        }`}
+      >
+        <Plus />
+      </Button>
+    </Link>
+  );
+}
+
 function BottomBar({
   viewMode,
   setViewMode,
@@ -99,7 +200,7 @@ function BottomBar({
   return (
     <div className="fixed bottom-4 sm:bottom-6 w-full max-w-4xl mx-auto">
       <div className="flex items-center justify-between max-w-sm mx-auto px-8">
-        <span className="text-xs text-muted-foreground w-[3.75rem]">
+        <span className="text-xs text-muted-foreground w-[4rem]">
           {totalCount} {viewMode}
         </span>
         <div className="flex items-center justify-center bg-muted rounded-full p-1">
@@ -124,11 +225,10 @@ function BottomBar({
             words
           </button>
         </div>
-        <Link href="/" className="w-[3.75rem] flex justify-end">
-          <Button size="icon" className="rounded-full h-7 w-7 shadow-lg">
-            <Plus className="h-5 w-5" />
-          </Button>
-        </Link>
+        <div className="flex w-[4rem] justify-between items-center">
+          <AddButton variant="default" />
+          <ExportButton />
+        </div>
       </div>
     </div>
   );
