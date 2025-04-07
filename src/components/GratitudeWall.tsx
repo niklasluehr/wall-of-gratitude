@@ -78,7 +78,11 @@ export function GratitudeWall() {
           />
         </div>
       </div>
-      <BottomBar viewMode={viewMode} setViewMode={setViewMode} />
+      <BottomBar
+        viewMode={viewMode}
+        setViewMode={setViewMode}
+        totalCount={words.length}
+      />
     </>
   );
 }
@@ -86,16 +90,21 @@ export function GratitudeWall() {
 function BottomBar({
   viewMode,
   setViewMode,
+  totalCount,
 }: {
   viewMode: ViewMode;
   setViewMode: (mode: ViewMode) => void;
+  totalCount: number;
 }) {
   return (
     <div className="fixed bottom-4 sm:bottom-6 w-full max-w-4xl mx-auto">
-      <div className="flex items-center gap-2 w-full justify-center">
+      <div className="flex items-center justify-between max-w-sm mx-auto px-8">
+        <span className="text-xs text-muted-foreground w-[3.75rem]">
+          {totalCount} {viewMode}
+        </span>
         <div className="flex items-center justify-center bg-muted rounded-full p-1">
           <button
-            className={`px-3 py-1 text-sm rounded-full transition-colors ${
+            className={`px-3 py-1 text-xs rounded-full transition-colors ${
               viewMode === "entries"
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground"
@@ -105,7 +114,7 @@ function BottomBar({
             entries
           </button>
           <button
-            className={`px-3 py-1 text-sm rounded-full transition-colors ${
+            className={`px-3 py-1 text-xs rounded-full transition-colors ${
               viewMode === "words"
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground"
@@ -115,9 +124,9 @@ function BottomBar({
             words
           </button>
         </div>
-        <Link href="/">
-          <Button size="icon" className="rounded-full h-8 w-8 shadow-lg">
-            <Plus className="h-6 w-6" />
+        <Link href="/" className="w-[3.75rem] flex justify-end">
+          <Button size="icon" className="rounded-full h-7 w-7 shadow-lg">
+            <Plus className="h-5 w-5" />
           </Button>
         </Link>
       </div>
