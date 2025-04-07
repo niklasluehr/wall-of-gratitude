@@ -25,6 +25,7 @@ interface WordCloudData {
 export function GratitudeWall() {
   const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
   const [viewMode, setViewMode] = useState<ViewMode>("entries");
+  const [isLoading, setIsLoading] = useState(true);
   // This is used to trigger a re-render when the data is imported
   const [dataVersion, setDataVersion] = useState(0);
 
@@ -36,6 +37,7 @@ export function GratitudeWall() {
         : Math.min(window.innerWidth - 64, 1200),
       height: Math.floor(window.innerHeight * 0.8),
     });
+    setIsLoading(false);
   }, []);
 
   const words = useMemo(() => {
@@ -47,7 +49,7 @@ export function GratitudeWall() {
     }));
   }, [viewMode, dataVersion]);
 
-  if (words.length === 0) {
+  if (!isLoading && words.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-[50vh] gap-4">
         <p className="text-muted-foreground text-sm">
@@ -203,6 +205,7 @@ function BottomBar({
         <span className="text-xs text-muted-foreground w-[4rem]">
           {totalCount} {viewMode}
         </span>
+
         <div className="flex items-center justify-center bg-muted rounded-full p-1">
           <button
             className={`px-3 py-1 text-xs rounded-full transition-colors ${
@@ -225,6 +228,7 @@ function BottomBar({
             words
           </button>
         </div>
+
         <div className="flex w-[4rem] justify-between items-center">
           <AddButton variant="default" />
           <ExportButton />
