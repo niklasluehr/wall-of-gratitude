@@ -140,7 +140,11 @@ function ImportButton({ onDataImported }: { onDataImported: () => void }) {
           toast.success("Data imported successfully");
           onDataImported();
         } catch (error) {
-          toast.error("Failed to import data");
+          toast.error(
+            `Failed to import data: ${
+              error instanceof Error ? error.message : "Unknown error"
+            }`
+          );
         }
       };
       reader.readAsText(file);

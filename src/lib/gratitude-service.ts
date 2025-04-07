@@ -254,6 +254,10 @@ export function importGratitudeEntries(jsonString: string): void {
       throw new Error("Invalid data format");
     }
   } catch (error) {
-    throw new Error("Failed to import data: Invalid JSON format");
+    throw new Error(
+      `Failed to import data: ${
+        error instanceof Error ? error.message : "Invalid JSON format"
+      }`
+    );
   }
 }
