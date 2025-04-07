@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import WordCloud from "react-d3-cloud";
 import { scaleOrdinal } from "d3-scale";
 import { schemeCategory10 } from "d3-scale-chromatic";
-import { Plus, Download, Upload } from "lucide-react";
+import { Plus, Download, Upload, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,7 +49,15 @@ export function GratitudeWall() {
     }));
   }, [viewMode, dataVersion]);
 
-  if (!isLoading && words.length === 0) {
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
+  }
+
+  if (words.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-[50vh] gap-4">
         <p className="text-muted-foreground text-sm">
