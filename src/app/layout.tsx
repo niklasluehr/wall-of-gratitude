@@ -8,6 +8,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Wall of Gratitude",
   description: "Track your daily gratitude practice",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
