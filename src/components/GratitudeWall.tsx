@@ -127,7 +127,7 @@ function ExportButton() {
   return (
     <Button
       size="icon"
-      className="rounded-full h-7 w-7"
+      className="rounded-full sm:h-7 sm:w-7 h-8 w-8"
       onClick={handleExport}
       title="Export data"
     >
@@ -193,7 +193,7 @@ function AddButton({
         size="icon"
         title="Add entries"
         className={`rounded-full ${
-          variant === "outline" ? "h-8 w-8 shadow-md" : "h-7 w-7"
+          variant === "outline" ? "h-8 w-8 shadow-md" : "h-8 sm:h-7 w-8 sm:w-7"
         }`}
       >
         <Plus />
@@ -214,13 +214,13 @@ function BottomBar({
   return (
     <div className="fixed bottom-4 sm:bottom-6 w-full max-w-4xl mx-auto">
       <div className="flex items-center justify-between max-w-sm mx-auto px-8">
-        <span className="text-xs text-muted-foreground w-[4rem]">
+        <span className="sm:text-xs text-sm text-muted-foreground w-[4.5rem] sm:w-[4rem]">
           {totalCount} {viewMode}
         </span>
 
         <div className="flex items-center justify-center bg-muted rounded-full p-1">
           <button
-            className={`px-3 py-1 text-xs rounded-full transition-colors ${
+            className={`px-3 py-1 text-sm sm:text-xs rounded-full transition-colors ${
               viewMode === "entries"
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground"
@@ -230,7 +230,7 @@ function BottomBar({
             entries
           </button>
           <button
-            className={`px-3 py-1 text-xs rounded-full transition-colors ${
+            className={`px-3 py-1 text-sm sm:text-xs rounded-full transition-colors ${
               viewMode === "words"
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground"
@@ -241,7 +241,7 @@ function BottomBar({
           </button>
         </div>
 
-        <div className="flex w-[4rem] justify-between items-center">
+        <div className="flex w-[4.5rem] sm:w-[4rem] justify-between items-center">
           <AddButton variant="default" />
           <ExportButton />
         </div>
