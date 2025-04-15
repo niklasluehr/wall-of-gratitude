@@ -1,3 +1,5 @@
+"use client";
+
 import { GratitudeForm } from "@/components/GratitudeForm";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
