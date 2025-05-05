@@ -1,12 +1,14 @@
 "use client";
 
 import { GratitudeForm } from "@/components/GratitudeForm";
+import { OnboardingPopup } from "@/components/OnboardingPopup";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
     <div className="max-w-md mx-auto flex flex-col items-center justify-center min-h-[80vh]">
+      <OnboardingPopup />
       <header className="mb-12">
         <h1 className="text-2xl font-bold text-center">Wall of Gratitude</h1>
         <p className="text-center text-sm text-muted-foreground">
