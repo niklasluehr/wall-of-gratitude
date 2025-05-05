@@ -66,7 +66,7 @@ export function OnboardingPopup() {
         </div>
         <div className="flex justify-center pt-4">
           <Button onClick={() => setIsOpen(false)} className="px-8">
-            Let's Begin
+            Let{"'"}s Begin
           </Button>
         </div>
         <DialogDescription className="pt-2 text-xs text-muted-foreground text-center">
