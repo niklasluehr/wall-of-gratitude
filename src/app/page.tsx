@@ -37,6 +37,10 @@ export default function Home() {
         >
           niklasluehr.com
         </a>
+        {" | "}
+        <Link className="hover:underline" target="_blank" href="/privacy">
+          privacy
+        </Link>
       </footer>
     </div>
   );
