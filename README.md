@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Wall of Gratitude
 
-## Getting Started
+> _You can't be grateful and anxious at the same time_
 
-First, run the development server:
+![Wall of Gratitude App Preview](src/app/opengraph-image.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Consciously practicing gratitude is something that consistently makes me feel good - but I do it way too little.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+That's why I built this app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How It Works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+It's very simple:
 
-## Learn More
+1. Make https://wog.niklasluehr.com your browser start page
+2. Now every time you open your browser, you are prompted to enter three things you're grateful for
+3. Watch your Wall of Gratitude grow every day ✨
 
-To learn more about Next.js, take a look at the following resources:
+Depending on how often an entry or word occurs, they are rendered bigger or smaller.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Run on Startup on Windows
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+You can also run the app on Startup:
 
-## Deploy on Vercel
+1. Press Windows Key + R
+2. Type "shell:startup"
+3. Create a link to `start-wall-of-gratitude.bat` inside the startup folder
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Privacy, Import & Export
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**All data is always only stored locally in your browser.**
+To move the data to a new browser, use the export and import buttons.
+
+---
+
+MIT License
+**Made with gratitude by [niklasluehr.com](https://niklasluehr.com)**
