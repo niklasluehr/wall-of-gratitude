@@ -1,8 +1,8 @@
 # Wall of Gratitude
 
-> _You can't be grateful and anxious at the same time_
-
 ![Wall of Gratitude App Preview](src/app/opengraph-image.png)
+
+> _You can't be grateful and anxious at the same time_
 
 Consciously practicing gratitude is something that consistently makes me feel good - but I do it way too little.
 
@@ -28,10 +28,10 @@ You can also run the app on Startup:
 
 ### Privacy, Import & Export
 
-**All data is always only stored locally in your browser.**
+**All data is always only stored locally in your browser.**  
 To move the data to a new browser, use the export and import buttons.
 
 ---
 
-MIT License
+MIT License  
 **Made with gratitude by [niklasluehr.com](https://niklasluehr.com)**
